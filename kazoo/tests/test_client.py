@@ -121,6 +121,14 @@ class TestClientConstructor(unittest.TestCase):
         eq_(client._retry.max_tries, 99)
         eq_(client._conn_retry.delay, 99)
 
+    def test_connection_handler(self):
+        client = self._makeOne(sasl_server_principal='my_sasl_principal')
+        connection_handler = client._connection
+        self.assertEqual(connection_handler.client, client)
+        self.assertEqual(connection_handler.handler, client.handler)
+        self.assertEqual(connection_handler.logger, client.logger)
+        self.assertEqual(connection_handler.sasl_server_principal, 'my_sasl_principal')
+
 
 class TestAuthentication(KazooTestCase):
 
